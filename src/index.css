@@ -11,12 +11,5 @@ body {
   font-family: "Poppins", sans-serif;
   scroll-behavior: smooth;
   color-scheme: dark;
+  background-image: url("/src//assets/herobg.png");
 }
-
-.container-wasserstände {
- display: flex;
- flex-direction: column;
- align-items: center;
- gap: 20px;
-}
-
