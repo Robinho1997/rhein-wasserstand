@@ -42,7 +42,8 @@ const Wasserstand = (props) => {
   const class5 = useDelayedClass(false, 300, "bg-cyan-200");
 
   useEffect(() => {
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${props.name}&appid=d2bdd7545f0dd544e2660ac3e39f8b25&units=metric
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${props.name}&appid=
+    &units=metric
     `)
       .then((res) => res.json())
       .then((data) => {
