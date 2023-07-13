@@ -13,13 +13,36 @@ const defaultOptions = {
   easing: "cubic-bezier(.03,.98,.52,.99)",
 };
 
+function useDelayedClass(condition, delay, className) {
+  const [shouldApplyClass, setShouldApplyClass] = useState(false);
+
+  useEffect(() => {
+    if (!condition) {
+      const timeoutId = setTimeout(() => {
+        setShouldApplyClass(true);
+      }, delay);
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    }
+  }, [condition, delay]);
+
+  return shouldApplyClass ? className : "";
+}
+
 const Wasserstand = (props) => {
   const [temperature, setTemperature] = useState();
   const [wind, setWind] = useState();
   const [icon, setIcon] = useState();
 
+  const class1 = useDelayedClass(props.wasserstand < 200, 1500, "bg-cyan-900");
+  const class2 = useDelayedClass(props.wasserstand < 150, 1200, "bg-cyan-700");
+  const class3 = useDelayedClass(props.wasserstand < 100, 900, "bg-cyan-600");
+  const class4 = useDelayedClass(false, 600, "bg-cyan-400");
+  const class5 = useDelayedClass(false, 300, "bg-cyan-200");
+
   useEffect(() => {
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${props.name}&appid=&units=metric
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${props.name}&appid=d2bdd7545f0dd544e2660ac3e39f8b25&units=metric
     `)
       .then((res) => res.json())
       .then((data) => {
@@ -48,27 +71,19 @@ const Wasserstand = (props) => {
       </div>
 
       <p
-        className={`border-gray-700 border rounded-xl w-[250px] h-[25px] ${
-          props.wasserstand < 200 ? "" : "bg-cyan-900"
-        }`}
+        className={`border-gray-700 border rounded-xl w-[250px] h-[25px] ${class1}`}
       ></p>
       <p
-        className={`border border-gray-700 rounded-xl w-[250px] h-[25px] ${
-          props.wasserstand < 150 ? "" : "bg-cyan-700"
-        }`}
+        className={`border border-gray-700 rounded-xl w-[250px] h-[25px] ${class2}`}
       ></p>
       <p
-        className={`border border-gray-700 rounded-xl w-[250px] h-[25px] ${
-          props.wasserstand < 100 ? "" : "bg-cyan-600"
-        }`}
+        className={`border border-gray-700 rounded-xl w-[250px] h-[25px] ${class3}`}
       ></p>
       <p
-        className={`border border-gray-700 rounded-xl w-[250px] h-[25px] ${
-          props.wasserstand < 80 ? "" : "bg-cyan-400"
-        }`}
+        className={`border border-gray-700 rounded-xl w-[250px] h-[25px] ${class4}`}
       ></p>
       <p
-        className={`border border-gray-700 rounded-xl w-[250px] h-[25px] ${"bg-cyan-200"}`}
+        className={`border border-gray-700 rounded-xl w-[250px] h-[25px] ${class5}`}
       ></p>
     </Tilt>
   );
